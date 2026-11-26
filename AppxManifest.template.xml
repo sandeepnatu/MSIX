@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  My Memories Album - Microsoft Store package manifest (template).
+  build_msix.ps1 fills the {{TOKENS}}. Identity Name / Publisher / PublisherDisplayName MUST be copied
+  exactly from Partner Center (Product management > Product identity); case, spaces and punctuation count.
+-->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
+  IgnorableNamespaces="uap uap10 rescap desktop6">
+
+  <Identity Name="{{IDENTITY_NAME}}"
+            Publisher="{{PUBLISHER}}"
+            Version="{{VERSION}}"
+            ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>My Memories Album</DisplayName>
+    <PublisherDisplayName>{{PUBLISHER_DISPLAY}}</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+    <Description>A gift from Scan My Memories: albums, slideshows, collages and gentle photo tidying for your family pictures.</Description>
+    <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
+    <desktop6:RegistryWriteVirtualization>disabled</desktop6:RegistryWriteVirtualization>
+  </Properties>
+
+  <Dependencies>
+    <!-- uap10 attributes need Windows 10 version 2004 (build 19041) or later -->
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+
+  <Applications>
+    <!--
+      Starts the bundled private Python (no window) and runs the launcher by a path built from
+      the Python's own location, so it does not depend on the current folder.
+    -->
+    <Application Id="App"
+                 Executable="python\pythonw.exe"
+                 uap10:RuntimeBehavior="packagedClassicApp"
+                 uap10:TrustLevel="mediumIL"
+                 uap10:Parameters="-c &quot;import os,sys,runpy;a=os.path.join(os.path.dirname(os.path.dirname(sys.executable)),'app');os.chdir(a);sys.path.insert(0,a);runpy.run_path(os.path.join(a,'MyMemoriesAlbum.pyw'),run_name='__main__')&quot;">
+      <uap:VisualElements DisplayName="My Memories Album"
+                          Description="A gift from Scan My Memories"
+                          Square150x150Logo="Assets\Square150x150Logo.png"
+                          Square44x44Logo="Assets\Square44x44Logo.png"
+                          BackgroundColor="#2b4c7e" />
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <!-- Required for a desktop (Win32) app; Partner Center asks why: see README -->
+    <rescap:Capability Name="runFullTrust" />
+    <rescap:Capability Name="unvirtualizedResources" />
+  </Capabilities>
+</Package>

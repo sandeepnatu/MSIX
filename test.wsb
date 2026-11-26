@@ -1,0 +1,14 @@
+<Configuration>
+  <VGpu>Enable</VGpu>
+  <Networking>Enable</Networking>
+  <MappedFolders>
+    <MappedFolder>
+      <HostFolder>C:\Dev\PhotoTidy\sandbox\msix\out</HostFolder>
+      <SandboxFolder>C:\pkg</SandboxFolder>
+      <ReadOnly>true</ReadOnly>
+    </MappedFolder>
+  </MappedFolders>
+  <LogonCommand>
+    <Command>powershell -NoExit -ExecutionPolicy Bypass -Command "Import-Certificate -FilePath C:\pkg\MyMemoriesAlbum_test.cer -CertStoreLocation Cert:\LocalMachine\TrustedPeople; Add-AppxPackage C:\pkg\MyMemoriesAlbum_1.0.0.0_x64_testsigned.msix"</Command>
+  </LogonCommand>
+</Configuration>
